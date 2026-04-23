@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 
 import Admin from './pages/Admin/Admin';
 import Home from './pages/Home/Home';
+import Charities from './pages/Charities/Charities';
 
 const ProtectedRoute = ({ children, adminOnly = false }) => {
     const { user, loading } = useAuth();
@@ -23,6 +24,7 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/charities" element={<Charities />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route 

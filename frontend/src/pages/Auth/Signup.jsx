@@ -12,7 +12,7 @@ const Signup = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('http://localhost:5000/api/charities')
+        axios.get('/api/charities')
             .then(res => setCharities(res.data))
             .catch(err => console.error("Could not fetch charities", err));
     }, []);
@@ -26,7 +26,7 @@ const Signup = () => {
             return setError('Minimum contribution to charity is 10%');
         }
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/signup', formData);
+            const res = await axios.post('/api/auth/signup', formData);
             login(res.data);
             navigate('/dashboard');
         } catch (err) {

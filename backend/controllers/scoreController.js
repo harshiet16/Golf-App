@@ -105,3 +105,31 @@ exports.deleteScore = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+exports.updateScore = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user.id;
+        const { score } = req.body;
+
+        if (score < 1 || score > 45) {
+            return res.status(400).json({ error: 'Score must be between 1 and 45' });
+        }
+
+        const { data, error } = await supabase
+            .from('scores')
+            .update({ score })
+            .eq('id', id)
+            .eq('user_id', userId)
+            .select()
+            .single();
+
+        if (error) {
+            return res.status(500).json({ error: 'Failed to update score' });
+        }
+
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};

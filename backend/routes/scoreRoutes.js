@@ -8,5 +8,6 @@ router.use(verifyToken);
 router.get('/', scoreController.getScores);
 router.post('/', scoreController.addScore);
 router.delete('/:id', scoreController.deleteScore);
+router.put('/:id', scoreController.updateScore);
 
 module.exports = router;

@@ -61,3 +61,22 @@ exports.updateCharity = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+exports.deleteCharity = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const { error } = await supabase
+            .from('charities')
+            .delete()
+            .eq('id', id);
+
+        if (error) {
+            return res.status(500).json({ error: 'Failed to delete charity' });
+        }
+
+        res.json({ message: 'Charity deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};

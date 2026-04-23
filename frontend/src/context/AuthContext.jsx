@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
         if (token) {
             try {
                 // We would typically fetch latest profile here to ensure token is valid
-                const res = await axios.get('http://localhost:5000/api/user/profile', {
+                const res = await axios.get('/api/user/profile', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setUser(res.data);
