@@ -30,7 +30,7 @@ exports.updateProfile = async (req, res) => {
         if (name) updates.name = name;
         if (charity_id !== undefined) updates.charity_id = charity_id;
         if (charity_percentage) updates.charity_percentage = charity_percentage;
-        if (subscription_status) updates.subscription_status = subscription_status; // Mocking subscription update mostly
+        if (subscription_status) updates.subscription_status = subscription_status; 
 
         if (password) {
             const salt = await bcrypt.genSalt(10);
@@ -99,7 +99,6 @@ exports.uploadProof = async (req, res) => {
     }
 };
 
-// Admin Endpoints
 exports.getAllUsers = async (req, res) => {
     try {
         const { data: users, error } = await supabase

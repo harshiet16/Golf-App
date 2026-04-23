@@ -1,11 +1,10 @@
--- Drop existing tables to avoid conflicts
+
 drop table if exists winners cascade;
 drop table if exists draws cascade;
 drop table if exists scores cascade;
 drop table if exists users cascade;
 drop table if exists charities cascade;
 
--- Charities
 create table charities (
   id uuid default gen_random_uuid() primary key,
   name varchar(255) not null,
@@ -14,7 +13,6 @@ create table charities (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- Users
 create table users (
   id uuid default gen_random_uuid() primary key,
   name varchar(255) not null,
@@ -27,27 +25,24 @@ create table users (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- Scores
 create table scores (
   id uuid default gen_random_uuid() primary key,
   user_id uuid references users(id) on delete cascade not null,
   score int not null check (score >= 1 and score <= 45),
   date date not null,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
-  unique(user_id, date) -- no duplicate date allowed per user
+  unique(user_id, date) 
 );
 
--- Draws
 create table draws (
   id uuid default gen_random_uuid() primary key,
-  month text not null, -- Format: YYYY-MM
-  numbers int[] not null, -- Expected to be an array of 5 integers
+  month text not null, 
+  numbers int[] not null, 
   type varchar(50) default 'random' check (type in ('random', 'algorithmic')),
   status varchar(50) default 'pending' check (status in ('pending', 'completed')),
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- Winners
 create table winners (
   id uuid default gen_random_uuid() primary key,
   user_id uuid references users(id) on delete cascade not null,
@@ -59,7 +54,6 @@ create table winners (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- Mock Data for Charities
 insert into charities (name, description, image_url) values 
 ('Global Clean Water', 'Providing clean drinking water to remote villages.', 'https://images.unsplash.com/photo-1517400508491-9de2b06ee29f?q=80&w=600&auto=format&fit=crop'),
 ('Education for All', 'Building schools and providing supplies in developing nations.', 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=600&auto=format&fit=crop'),

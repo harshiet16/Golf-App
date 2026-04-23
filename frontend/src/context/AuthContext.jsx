@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem('token');
         if (token) {
             try {
-                // We would typically fetch latest profile here to ensure token is valid
+
                 const res = await axios.get('/api/user/profile', {
                     headers: { Authorization: `Bearer ${token}` }
                 });

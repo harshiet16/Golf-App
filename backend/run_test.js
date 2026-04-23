@@ -22,13 +22,11 @@ async function runTests() {
     try {
         const testEmail = `testuser_${Date.now()}@test.com`;
         const testPassword = 'password123';
-        
-        // Get valid charity ID
+
         const charities = await fetchReq('/charities');
         const charityId = charities[0]?.id;
         if (!charityId) throw new Error("No charities found in DB!");
 
-        // 1. SIGNUP & LOGIN
         process.stdout.write('1. Testing User Signup & Charity Selection... ');
         const signupRes = await fetchReq('/auth/signup', {
             method: 'POST',
@@ -37,7 +35,6 @@ async function runTests() {
         const token = signupRes.token;
         console.log('✅ PASSED');
 
-        // 2. SUBSCRIPTION FLOW
         process.stdout.write('2. Testing Subscription Flow (Monthly)... ');
         await fetchReq('/user/profile', {
             method: 'PUT',
@@ -46,7 +43,6 @@ async function runTests() {
         });
         console.log('✅ PASSED');
 
-        // 3. SCORE ENTRY (5-score rolling logic)
         process.stdout.write('3. Testing Score Entry (Rolling 5 Logic)... ');
         for (let i = 1; i <= 6; i++) {
             await fetchReq('/scores', {
@@ -62,11 +58,9 @@ async function runTests() {
             console.log('❌ FAILED (Scores length: ' + scoreRes.length + ')');
         }
 
-        // --- Elevate to Admin using Supabase Directly ---
         process.stdout.write('4. Elevating Test User to Admin Privilege... ');
         await supabase.from('users').update({ role: 'admin' }).eq('email', testEmail);
-        
-        // Refresh token to get 'admin' role in JWT
+
         const loginRes = await fetchReq('/auth/login', {
             method: 'POST',
             body: { email: testEmail, password: testPassword }
@@ -74,7 +68,6 @@ async function runTests() {
         const adminToken = loginRes.token;
         console.log('✅ PASSED');
 
-        // 5. DRAW SYSTEM LOGIC & SIMULATION
         process.stdout.write('5. Testing Draw System Logic... ');
         let drawId;
         try {
@@ -95,11 +88,9 @@ async function runTests() {
             }
         }
 
-        // 6. WINNER VERIFICATION & PAYOUT
         process.stdout.write('6. Testing Winner Verification & Payout Tracking... ');
         let winnersRes = await fetchReq('/draws/winners', { headers: { Authorization: `Bearer ${adminToken}` } });
-        
-        // Force a winner if algorithm didn't hit to ensure we test the verification flow
+
         if (winnersRes.length === 0) {
             await supabase.from('winners').insert([{
                 user_id: (await supabase.from('users').select('id').eq('email', testEmail).single()).data.id,
@@ -113,15 +104,13 @@ async function runTests() {
 
         if (winnersRes.length > 0) {
             const winner = winnersRes[0];
-            
-            // User uploading proof (uses regular user logic but admin can do it too)
+
             await fetchReq(`/user/winners/${winner.id}/proof`, {
                 method: 'PUT',
                 body: { proof_url: 'https://fake-image.url' },
                 headers: { Authorization: `Bearer ${adminToken}` }
             });
 
-            // Admin verifying
             const verifyRes = await fetchReq(`/draws/winners/${winner.id}/verify`, {
                 method: 'PUT',
                 body: { status: 'paid' },
@@ -136,7 +125,6 @@ async function runTests() {
 
         console.log('\n🎉 ALL PLATFORM TESTS COMPLETED 🎉');
 
-        // Cleanup test user
         await supabase.from('users').delete().eq('email', testEmail);
 
     } catch (error) {

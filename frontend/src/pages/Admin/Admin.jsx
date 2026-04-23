@@ -71,7 +71,7 @@ const Admin = () => {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setDrawResults(res.data);
-            fetchWinners(); // Refresh winners
+            fetchWinners(); 
             alert("Draw executed successfully!");
         } catch (err) {
             alert(err.response?.data?.error || "Failed to run draw. It may have already run this month.");
@@ -94,7 +94,7 @@ const Admin = () => {
     return (
         <div className="min-h-screen bg-slate-50 p-6 md:p-12">
             <div className="max-w-6xl mx-auto space-y-8">
-                
+
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900 flex items-center"><Settings className="mr-3" /> Admin Control Center</h1>
@@ -102,7 +102,7 @@ const Admin = () => {
                     </div>
                 </div>
 
-                {/* Analytics Widget */}
+                {}
                 {analytics && (
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
@@ -126,8 +126,8 @@ const Admin = () => {
                 )}
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    
-                    {/* Draw execution */}
+
+                    {}
                     <div className="lg:col-span-1 space-y-6">
                         <div className="bg-gradient-to-br from-brand-900 to-brand-800 rounded-2xl p-6 text-white shadow-lg">
                             <h3 className="text-xl font-bold mb-2 flex items-center"><PlayCircle className="mr-2" /> Monthly Draw</h3>
@@ -148,7 +148,7 @@ const Admin = () => {
                             )}
                         </div>
 
-                        {/* Summary Widget */}
+                        {}
                         <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
                              <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center">
                                 <Trophy className="text-brand-500 mr-2" size={20} /> Winner Approvals
@@ -176,7 +176,7 @@ const Admin = () => {
                         </div>
                     </div>
 
-                    {/* User Management */}
+                    {}
                     <div className="lg:col-span-2">
                         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
                             <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
@@ -187,7 +187,7 @@ const Admin = () => {
                                     Total: {users.length}
                                 </div>
                             </div>
-                            
+
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left text-sm whitespace-nowrap">
                                     <thead className="text-xs text-slate-500 uppercase bg-white border-b border-slate-100 sticky top-0">
@@ -232,7 +232,7 @@ const Admin = () => {
                             </div>
                         </div>
 
-                        {/* Charity Management Widget */}
+                        {}
                         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mt-8">
                             <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
                                 <h3 className="text-xl font-bold text-slate-800 flex items-center">

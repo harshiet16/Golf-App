@@ -34,7 +34,6 @@ exports.addScore = async (req, res) => {
             return res.status(400).json({ error: 'Score must be between 1 and 45' });
         }
 
-        // Check if a score for this date already exists for this user
         const { data: existingScore } = await supabase
             .from('scores')
             .select('id')
@@ -46,19 +45,18 @@ exports.addScore = async (req, res) => {
             return res.status(400).json({ error: 'A score for this date already exists. You can edit it instead.' });
         }
 
-        // Check current scores count
         const { data: currentScores, error: countError } = await supabase
             .from('scores')
             .select('id, date')
             .eq('user_id', userId)
-            .order('date', { ascending: true }); // Oldest first
+            .order('date', { ascending: true }); 
 
         if (countError) {
             return res.status(500).json({ error: 'Database error' });
         }
 
         if (currentScores && currentScores.length >= 5) {
-            // Delete the oldest score
+
             const oldestScoreId = currentScores[0].id;
             await supabase
                 .from('scores')
@@ -66,7 +64,6 @@ exports.addScore = async (req, res) => {
                 .eq('id', oldestScoreId);
         }
 
-        // Insert new score
         const { data: newScore, error: insertError } = await supabase
             .from('scores')
             .insert([{ user_id: userId, score, date }])

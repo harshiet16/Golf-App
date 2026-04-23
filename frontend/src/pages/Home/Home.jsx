@@ -6,7 +6,7 @@ import { Heart, Trophy, Activity, ArrowRight } from 'lucide-react';
 const Home = () => {
     return (
         <div className="min-h-screen bg-white">
-            {/* Nav */}
+            {}
             <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
                 <div className="text-2xl font-bold tracking-tight text-slate-900 border-b-2 border-brand-500 pb-1">
                     Impact<span className="text-brand-500">Play</span>
@@ -17,7 +17,7 @@ const Home = () => {
                 </div>
             </nav>
 
-            {/* Hero */}
+            {}
             <section className="container mx-auto px-6 py-16 md:py-32 text-center max-w-4xl">
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
                     <div className="inline-block bg-brand-50 text-brand-700 px-4 py-2 rounded-full font-semibold tracking-wide text-sm mb-6 border border-brand-100">
@@ -37,11 +37,11 @@ const Home = () => {
                 </motion.div>
             </section>
 
-            {/* Features (Emotionally driven) */}
+            {}
             <section className="bg-slate-50 py-24">
                 <div className="container mx-auto px-6 max-w-6xl">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                        
+
                         <motion.div 
                             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
                             className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 text-center"
@@ -85,7 +85,7 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Footer */}
+            {}
             <footer className="bg-slate-900 py-12 text-center text-slate-400">
                  <p>&copy; 2026 ImpactPlay Platform. Building a better world, one score at a time.</p>
             </footer>

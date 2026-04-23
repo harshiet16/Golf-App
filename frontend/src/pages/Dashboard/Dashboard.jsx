@@ -89,14 +89,14 @@ const Dashboard = () => {
     };
 
     const handleSubscribeMock = async (planType) => {
-        // Mocking the behavior of subscribing
+
         try {
             const token = localStorage.getItem('token');
             await axios.put('/api/user/profile', 
                 { subscription_status: 'active' },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            checkAuthStatus(); // refresh user
+            checkAuthStatus(); 
             alert(`Subscription to ${planType} successful!`);
         } catch (err) {
             console.error(err);
@@ -128,7 +128,7 @@ const Dashboard = () => {
 
     return (
         <div className="min-h-screen bg-slate-50">
-            {/* Navbar */}
+            {}
             <nav className="bg-white border-b border-slate-200 px-6 md:px-12 py-4 flex justify-between items-center mb-8">
                 <div className="font-extrabold text-2xl text-brand-900 tracking-tight">Impact<span className="text-brand-500">Play</span></div>
                 <div className="flex items-center gap-4">
@@ -143,8 +143,8 @@ const Dashboard = () => {
             </nav>
 
             <div className="max-w-6xl mx-auto space-y-8 px-6 md:px-12 pb-12">
-                
-                {/* Header Profile Summary */}
+
+                {}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
@@ -174,7 +174,7 @@ const Dashboard = () => {
                 )}
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {/* Score Entry & History (2 columns) */}
+                    {}
                     <div className="md:col-span-2 space-y-8">
                         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
                             <h3 className="text-xl font-bold text-slate-800 flex items-center mb-6">
@@ -247,7 +247,7 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                    {/* Sidebar Overview (1 column) */}
+                    {}
                     <div className="space-y-8">
                         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 text-center">
                             <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">

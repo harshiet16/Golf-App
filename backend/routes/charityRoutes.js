@@ -5,7 +5,6 @@ const { verifyToken, requireAdmin } = require('../middlewares/authMiddleware');
 
 router.get('/', charityController.getCharities);
 
-// Admin routes
 router.post('/', verifyToken, requireAdmin, charityController.addCharity);
 router.put('/:id', verifyToken, requireAdmin, charityController.updateCharity);
 router.delete('/:id', verifyToken, requireAdmin, charityController.deleteCharity);

@@ -6,7 +6,6 @@ dotenv.config();
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 
-// IN-MEMORY MOCK DB
 const mockDb = {
     users: [],
     charities: [
@@ -19,7 +18,6 @@ const mockDb = {
     winners: []
 };
 
-// Simulate Supabase Builder
 const createMockSupabase = () => {
     return {
         from: (table) => {
@@ -68,7 +66,7 @@ const createMockSupabase = () => {
                        eq: (field, value) => {
                            mockDb[table] = mockDb[table].filter(d => d[field] !== value);
                            return {
-                               eq: () => Promise.resolve({ data: null, error: null }), // For delete score chained eqs
+                               eq: () => Promise.resolve({ data: null, error: null }), 
                                then: (res) => res({ data: null, error: null })
                            }
                        }
@@ -78,7 +76,6 @@ const createMockSupabase = () => {
         }
     };
 };
-
 
 let supabase;
 

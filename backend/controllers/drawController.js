@@ -11,10 +11,9 @@ const generateRandomNumbers = () => {
 
 exports.runDraw = async (req, res) => {
     try {
-        const { type } = req.body; // 'random' or 'algorithmic'
-        const currentMonth = new Date().toISOString().substring(0, 7); // YYYY-MM
+        const { type } = req.body; 
+        const currentMonth = new Date().toISOString().substring(0, 7); 
 
-        // Check if draw already ran for this month
         const { data: existingDraw } = await supabase
             .from('draws')
             .select('id')
@@ -25,9 +24,8 @@ exports.runDraw = async (req, res) => {
             return res.status(400).json({ error: 'Draw already ran for this month.' });
         }
 
-        const winningNumbers = generateRandomNumbers(); // Always random for now
+        const winningNumbers = generateRandomNumbers(); 
 
-        // Create draw entry
         const { data: draw, error: drawError } = await supabase
             .from('draws')
             .insert([{ month: currentMonth, numbers: winningNumbers, type: type || 'random', status: 'completed' }])
@@ -38,19 +36,13 @@ exports.runDraw = async (req, res) => {
             return res.status(500).json({ error: 'Failed to create draw' });
         }
 
-        // Calculate winners
-        // Fetch ALL users and their LATEST 5 scores to compare.
-        // Actually, PRD says "enters their last 5 golf scores"
-        // And algorithm matches these 5 scores.
-        
         const { data: allUsers } = await supabase
             .from('users')
             .select('id, subscription_status')
             .eq('subscription_status', 'active');
-        
+
         const winnersList = [];
 
-        // For each active user, get their scores
         if (allUsers) {
             for (let user of allUsers) {
                 const { data: userScores } = await supabase
@@ -74,7 +66,7 @@ exports.runDraw = async (req, res) => {
                             user_id: user.id,
                             draw_id: draw.id,
                             match_type: matches,
-                            prize: matches === 5 ? 1000 : matches === 4 ? 350 : 250, // Arbitrary prize split representation
+                            prize: matches === 5 ? 1000 : matches === 4 ? 350 : 250, 
                             status: 'pending'
                         });
                     }
@@ -104,7 +96,7 @@ exports.getDrawResults = async (req, res) => {
             .from('draws')
             .select('*')
             .order('month', { ascending: false });
-        
+
         if (error) {
            return res.status(500).json({ error: 'Failed to fetch draws' });
         }
@@ -124,7 +116,7 @@ exports.getWinners = async (req, res) => {
                 draws ( month )
             `)
             .order('created_at', { ascending: false });
-        
+
         if (error) {
            return res.status(500).json({ error: 'Failed to fetch winners' });
         }
@@ -137,7 +129,7 @@ exports.getWinners = async (req, res) => {
 exports.verifyProof = async (req, res) => {
     try {
         const { id } = req.params;
-        const { status } = req.body; // 'paid'
+        const { status } = req.body; 
 
         const { data, error } = await supabase
             .from('winners')

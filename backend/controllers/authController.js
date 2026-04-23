@@ -5,13 +5,11 @@ const supabase = require('../config/supabase');
 exports.signup = async (req, res) => {
     try {
         const { name, email, password, charity_id, charity_percentage } = req.body;
-        
-        // Validation
+
         if (!name || !email || !password) {
             return res.status(400).json({ error: 'Name, email, and password are required' });
         }
 
-        // Check if user exists
         const { data: existingUser } = await supabase
             .from('users')
             .select('id')
@@ -22,11 +20,9 @@ exports.signup = async (req, res) => {
             return res.status(400).json({ error: 'User already exists' });
         }
 
-        // Hash password
         const salt = await bcrypt.genSalt(10);
         const password_hash = await bcrypt.hash(password, salt);
 
-        // Create user
         const { data: newUser, error } = await supabase
             .from('users')
             .insert([{
@@ -44,7 +40,6 @@ exports.signup = async (req, res) => {
             return res.status(500).json({ error: 'Failed to create user' });
         }
 
-        // Create JWT
         const token = jwt.sign(
             { id: newUser.id, role: newUser.role },
             process.env.JWT_SECRET,
